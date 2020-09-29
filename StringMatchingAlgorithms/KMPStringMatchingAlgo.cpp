@@ -40,5 +40,4 @@ main(int argc, char* argv[]) {
     // IF PATTERN CONTAINS IN TEST STRING, THEN J == M
     if(j == m)
         cout << i - m << endl;
-
 }
