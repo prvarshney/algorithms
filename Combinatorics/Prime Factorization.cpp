@@ -12,7 +12,6 @@ main(int argc, char* argv[]) {
     int num;
     cin >> num;
     // PROCESSING OUTPUT
-    int original_number = num;
     for(int factor = 2 ; factor * factor <= num ; factor++) {
         int cnt = 0;
         while(num % factor == 0) {
