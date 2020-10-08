@@ -1,50 +1,53 @@
-// HACKEREARTH - hackerearth.com/problem/algorithm/binomial-coefficient-1/description/
 #include <iostream>
 
 using namespace std;
 typedef long long int ll;
 
-ll mod = 1e9 + 7;
+int mod = 1e9 + 7;
 ll power(int a, int x) {
-    if(x == 0)  return 1;
+    if(x == 0) return 1;
     if(x == 1) return a;
-    ll temp = power(a, x/2) % mod;
+    ll temp = power(a, x / 2);
     temp = (temp * temp) % mod;
-    if(x & 1 > 0)   //  MEANS POWER IS ODD
+
+    if(x & 1 > 0)   // CHECKING FOR ODD POWER
         return (temp * a) % mod;
-    else
+    else 
         return temp;
 }
 
-ll binexpo(int n, int k) {
-    k = min(k, n - k);
-    ll dp[2][k + 1];
-    for(int i = 0 ; i <= n ; i++) {
-        for(int j = 0 ; j <= i  && j <= k; j++) {
-            if(j == 0 || i == j)
-                dp[i % 2][j] = 1;
-            else 
-                dp[i % 2][j] = (dp[(i - 1) % 2][j - 1] + dp[(i - 1) % 2][j]) % mod;
-        }
-    }
+ll inverse(ll val) {
+    return power(val, mod - 2) % mod;
+}
 
-    return dp[n % 2][k];
+ll nCr(int n, int k) {
+    k = min(k, n - k);   // SYMETRIC PROPERTY OF COMBINATIONS
+    // COMPUTING NTH FACTORIAL
+    ll dp[n + 1];
+    dp[0] = 1;
+    for(int idx = 1; idx <= n ; idx++)
+        dp[idx] = (dp[idx - 1] * idx) % mod;
+
+    ll res = dp[n];
+    res = (res * inverse(dp[n - k])) % mod;
+    res = (res * inverse(dp[k])) % mod;
+    return res;
 }
 
 int main(int argc, char* argv[]) {
-    // OPTIMISING IO FROM STDIN
+    // OPTIMISING IO FROM STDIO
     ios::sync_with_stdio(false);
-    cout.tie(0);
     cin.tie(0);
-
-    // TAKING INPUT FROM STDIN
+    cout.tie(0);
+    // TAKING INPUT FROM CONSOLE
     int a, b, n, k;
     scanf("%d %d %d %d", &a, &b, &n, &k);
     // PROCESSING OUTPUT
-    ll res = power(a, k);
+    ll res = 1;
+    res = (res * power(a, k)) % mod;
     res = (res * power(b, n - k)) % mod;
-    res = (res * binexpo(n, n - k)) % mod;
-
+    res = (res * nCr(n, n - k)) % mod;
+    // DISPLAYING OUTPUT
     cout << res << endl;
     return 0;
 }
