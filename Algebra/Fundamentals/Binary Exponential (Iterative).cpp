@@ -4,13 +4,15 @@ using namespace std;
 
 double
 binpow(double a, int x) {
+    // HANDLING NEGATIVE POWERS
     if(x < 0) return 1 / binpow(a, -x);
 
     double prod = 1;
     while( x > 0) {
-        if(x & 1) prod = prod * a;
+        // CHECKING FOR THE ODD POWERS OF X
+        if(x & 1) prod = prod * a;  
         a = a * a;
-        x = x >> 1;
+        x = x >> 1;    // EQUIVALENT TO DIVIDE BY 2
     }
 
     return prod;
