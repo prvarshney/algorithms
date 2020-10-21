@@ -6,6 +6,18 @@
 using namespace std;
 typedef long long int BigInt;
 
+BigInt binpow(int n, BigInt power) {
+    if(power == 0) return 1;
+    if(power == 1) return n % mod;
+    BigInt temp = binpow(n, power / 2);
+    temp = (temp * temp) %  mod;
+    
+    if(power & 1 > 0)   // CHECK FOR ODD
+        return (temp * n) % mod;
+    else 
+        return temp; 
+}
+
 int 
 main(int argc,char* argv[]) {
     // OPTIMISING IO OPERATIONS
@@ -17,24 +29,22 @@ main(int argc,char* argv[]) {
     freopen("outputs.txt", "w", stdout);
     // TAKING INPUT FROM CONSOLE
     int t;
-    BigInt n;
-    cin >> t;
-    while(t--) {
-        // WORKING ON EACH TEST CASES
+    cin >> t; 
+    while (t --) {
+        BigInt n, asf = 1;
         cin >> n;
-        if(n == 6) {
-            cout << 9 << "\n";
+        if(n <= 3) {
+            cout << n << "\n";
             continue;
         }
-        
-        BigInt res = 1;
-        for(BigInt i = 2; i <= n && i + 1 != n ; i++) {
-            res = (res * i) % mod;
-            n -= i;
-        }
-        if(n != 0)
-            res = (res * n) % mod;
-        cout << res << "\n";
+
+        if(n % 3 == 0) 
+            asf = binpow(3, n / 3);
+        else if(n % 3 == 1) 
+            asf = (binpow(3, (n - 4) / 3) * 4) % mod;
+        else 
+            asf = (binpow(3, (n - 2) / 3) * 2) % mod;
+        cout << asf << "\n";
     }
     return 0;
 }
