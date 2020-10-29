@@ -1,2 +1,2 @@
--1 1 2
-0 1 17
+Case 1: Yes
+Case 2: No
